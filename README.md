@@ -1,0 +1,55 @@
+# ShortDrama Studio Pro (Fullstack MVP)
+
+已升级为可部署的全栈版本，包含：
+
+- FastAPI 后端接口（登录、项目管理、生成服务）
+- SQLite 数据库存储（用户、会话、项目、资产）
+- 前端 SPA（调用真实后端 API）
+- Docker 打包与部署文件
+
+## 功能覆盖
+
+1. 接 FastAPI 后端接口 ✅
+2. 接入真实生成 API 接口层（当前为可替换 provider 的后端实现）✅
+3. 项目保存到数据库 ✅
+4. 登录与项目管理 ✅
+5. 打包可部署版本 ✅
+
+## 本地开发运行
+
+### 1) 启动后端
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+uvicorn backend.main:app --reload --port 8001
+```
+
+### 2) 启动前端静态页
+
+另开一个终端：
+
+```bash
+python3 -m http.server 8000
+```
+
+打开：
+
+- 前端: http://127.0.0.1:8000
+- 后端健康检查: http://127.0.0.1:8001/health
+
+## Docker 部署
+
+```bash
+docker compose up --build
+```
+
+## 目录
+
+- `index.html` / `styles.css` / `app.js`: 前端应用
+- `backend/main.py`: FastAPI 服务
+- `backend/requirements.txt`: 后端依赖
+- `backend/app.db`: SQLite 数据库（运行时自动创建）
+- `Dockerfile` / `docker-compose.yml`: 部署打包
+- `PRODUCT_PRD.md`: 产品需求文档

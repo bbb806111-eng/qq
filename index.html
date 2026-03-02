@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShortDrama Studio Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <h1>ShortDrama<br />Studio Pro</h1>
+        <p class="tagline">结构化 · 工业化 · 可复用 · 无限画布调度</p>
+
+        <section class="auth-box card-mini">
+          <h4>账号登录</h4>
+          <input id="username" placeholder="用户名" />
+          <input id="password" type="password" placeholder="密码" />
+          <div class="actions tight">
+            <button id="registerBtn">注册</button>
+            <button id="loginBtn" class="primary">登录</button>
+          </div>
+          <p id="authStatus" class="hint">未登录</p>
+        </section>
+
+        <section class="project-box card-mini">
+          <h4>项目管理</h4>
+          <input id="projectName" placeholder="新项目名" />
+          <button id="createProjectBtn">新建项目</button>
+          <select id="projectSelect"></select>
+          <button id="saveProjectBtn">保存当前项目</button>
+        </section>
+
+        <nav>
+          <button class="nav-btn active" data-target="adaptation">小说改编</button>
+          <button class="nav-btn" data-target="storyboard">分镜生成</button>
+          <button class="nav-btn" data-target="assets">资产提取</button>
+          <button class="nav-btn" data-target="canvas">无限画布</button>
+          <button class="nav-btn" data-target="analytics">爆款分析</button>
+          <button class="nav-btn" data-target="export">导出中心</button>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h2>一站式 AI 短剧内容工业化生产系统</h2>
+            <p id="statusText">就绪：先登录，再输入小说内容并点击“生成短剧版”</p>
+          </div>
+          <button id="quickDemoBtn" class="primary">加载演示数据</button>
+        </header>
+
+        <section class="panel active" id="adaptation">
+          <h3>小说改编引擎 · Story Adaptation Engine</h3>
+          <div class="grid two-col">
+            <div class="card">
+              <label for="novelInput">小说输入</label>
+              <textarea id="novelInput" rows="14" placeholder="粘贴小说章节或段落..."></textarea>
+              <div class="actions">
+                <button id="adaptBtn" class="primary">生成短剧版（API）</button>
+                <button id="hookBtn">优化前3秒钩子</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4>改编输出</h4>
+              <pre id="adaptOutput">暂无内容</pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="storyboard">
+          <h3>分镜生成系统 · AI Storyboard Generator</h3>
+          <div class="actions">
+            <button id="generateStoryboard" class="primary">一键生成 15 秒完整镜头流（API）</button>
+            <button id="toggleScreen">切换横/竖屏</button>
+          </div>
+          <div class="card">
+            <table id="storyboardTable">
+              <thead><tr><th>镜头</th><th>时长</th><th>景别</th><th>机位运动</th><th>构图</th><th>氛围/光影</th><th>生图提示词</th><th>视频提示词</th><th>音效建议</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="assets">
+          <h3>资产自动提取系统 · Asset Intelligence Extractor</h3>
+          <div class="actions"><button id="extractAssets" class="primary">提取人物/场景/道具资产（API）</button></div>
+          <div class="grid three-col">
+            <article class="card"><h4>人物资产</h4><ul id="characterAssets"></ul></article>
+            <article class="card"><h4>场景资产</h4><ul id="sceneAssets"></ul></article>
+            <article class="card"><h4>道具资产</h4><ul id="propAssets"></ul></article>
+          </div>
+        </section>
+
+        <section class="panel" id="canvas"><h3>无限画布系统 · Infinite Production Canvas</h3><p class="hint">拖拽节点模拟生产链路（文本→剧本→分镜→资产→视频）。</p><div id="canvasBoard"></div></section>
+
+        <section class="panel" id="analytics">
+          <h3>爆款分析系统 · Viral Intelligence System</h3>
+          <div class="actions"><button id="analyzeBtn" class="primary">计算爆款指标</button></div>
+          <div class="grid two-col">
+            <div class="card metrics" id="metricsCard"></div>
+            <div class="card"><h4>情绪曲线（简化）</h4><div id="emotionBars" class="bars"></div></div>
+          </div>
+        </section>
+
+        <section class="panel" id="export">
+          <h3>导出中心</h3>
+          <div class="actions"><button id="exportJson" class="primary">导出 JSON 工程文件</button></div>
+          <pre id="exportPreview">点击导出后可查看预览</pre>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

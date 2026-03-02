@@ -53,3 +53,8 @@ docker compose up --build
 - `backend/app.db`: SQLite 数据库（运行时自动创建）
 - `Dockerfile` / `docker-compose.yml`: 部署打包
 - `PRODUCT_PRD.md`: 产品需求文档
+
+
+## 预览 Not Found 排查
+
+如果你在平台预览里看到 `Not Found`，通常是因为只启动了 API 服务但没有返回前端页面。当前版本已在 FastAPI 中提供 `/`、`/app.js`、`/styles.css` 路由，直接访问后端地址即可打开页面。

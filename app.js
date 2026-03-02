@@ -1,4 +1,4 @@
-const API_BASE = localStorage.getItem("api_base") || "http://127.0.0.1:8001";
+const API_BASE = localStorage.getItem("api_base") || window.location.origin;
 const state = { token: localStorage.getItem("token") || "", username: "", projectId: null, screenMode: "竖屏", novel: "", adapted: "", storyboard: [], assets: { characters: [], scenes: [], props: [] }, analytics: null };
 const $ = (id) => document.getElementById(id);
 const statusText = $("statusText");

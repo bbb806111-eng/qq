@@ -4,13 +4,21 @@ import hashlib
 import os
 import secrets
 import sqlite3
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Depends, Header
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 DB_PATH = os.getenv("DB_PATH", "backend/app.db")
 TOKEN_TTL_HOURS = 24
+
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+INDEX_FILE = ROOT_DIR / "index.html"
+APP_JS_FILE = ROOT_DIR / "app.js"
+STYLES_FILE = ROOT_DIR / "styles.css"
 
 app = FastAPI(title="ShortDrama Studio API", version="1.0.0")
 
@@ -142,6 +150,28 @@ def get_current_user_id(authorization: Optional[str] = Header(default=None)) -> 
     if datetime.fromisoformat(row["expires_at"]) < datetime.utcnow():
         raise HTTPException(status_code=401, detail="Token expired")
     return row["user_id"]
+
+
+
+@app.get("/")
+def web_index():
+    if not INDEX_FILE.exists():
+        raise HTTPException(status_code=404, detail="index.html not found")
+    return FileResponse(INDEX_FILE)
+
+
+@app.get("/app.js")
+def web_app_js():
+    if not APP_JS_FILE.exists():
+        raise HTTPException(status_code=404, detail="app.js not found")
+    return FileResponse(APP_JS_FILE, media_type="application/javascript")
+
+
+@app.get("/styles.css")
+def web_styles():
+    if not STYLES_FILE.exists():
+        raise HTTPException(status_code=404, detail="styles.css not found")
+    return FileResponse(STYLES_FILE, media_type="text/css")
 
 
 @app.get("/health")

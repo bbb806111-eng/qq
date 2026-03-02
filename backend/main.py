@@ -326,6 +326,25 @@ def generate_assets(req: AssetReq, user_id: int = Depends(get_current_user_id)):
     }
 
 
+@app.get("/preview")
+def preview_index():
+    if INDEX_FILE.exists():
+        return FileResponse(INDEX_FILE)
+    raise HTTPException(status_code=404, detail="index.html not found")
+
+
+@app.get("/preview/{full_path:path}")
+def preview_fallback(full_path: str):
+    normalized = full_path.strip("/")
+    if normalized.endswith("app.js") and APP_JS_FILE.exists():
+        return FileResponse(APP_JS_FILE, media_type="application/javascript")
+    if normalized.endswith("styles.css") and STYLES_FILE.exists():
+        return FileResponse(STYLES_FILE, media_type="text/css")
+    if INDEX_FILE.exists():
+        return FileResponse(INDEX_FILE)
+    raise HTTPException(status_code=404, detail="index.html not found")
+
+
 @app.get("/{full_path:path}")
 def spa_fallback(full_path: str):
     normalized = full_path.strip("/")
@@ -333,6 +352,11 @@ def spa_fallback(full_path: str):
         if INDEX_FILE.exists():
             return FileResponse(INDEX_FILE)
         raise HTTPException(status_code=404, detail="index.html not found")
+
+    if normalized.endswith("app.js") and APP_JS_FILE.exists():
+        return FileResponse(APP_JS_FILE, media_type="application/javascript")
+    if normalized.endswith("styles.css") and STYLES_FILE.exists():
+        return FileResponse(STYLES_FILE, media_type="text/css")
 
     if any(normalized == p or normalized.startswith(p) for p in API_PREFIXES):
         raise HTTPException(status_code=404, detail="Not Found")

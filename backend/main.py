@@ -20,6 +20,17 @@ INDEX_FILE = ROOT_DIR / "index.html"
 APP_JS_FILE = ROOT_DIR / "app.js"
 STYLES_FILE = ROOT_DIR / "styles.css"
 
+
+API_PREFIXES = (
+    "auth/",
+    "projects",
+    "generate/",
+    "health",
+    "docs",
+    "openapi.json",
+    "redoc",
+)
+
 app = FastAPI(title="ShortDrama Studio API", version="1.0.0")
 
 app.add_middleware(
@@ -313,3 +324,21 @@ def generate_assets(req: AssetReq, user_id: int = Depends(get_current_user_id)):
         "scenes": ["雨夜天台｜夜晚｜暴雨｜高楼边缘｜赛博写实风", "废弃仓库回忆场｜阴天｜尘雾｜纵深通道｜暗黑现实风"],
         "props": ["裂纹手机（关键证据）", "黑伞（身份符号）", "金属徽章（组织线索）"],
     }
+
+
+@app.get("/{full_path:path}")
+def spa_fallback(full_path: str):
+    normalized = full_path.strip("/")
+    if not normalized:
+        if INDEX_FILE.exists():
+            return FileResponse(INDEX_FILE)
+        raise HTTPException(status_code=404, detail="index.html not found")
+
+    if any(normalized == p or normalized.startswith(p) for p in API_PREFIXES):
+        raise HTTPException(status_code=404, detail="Not Found")
+
+    if INDEX_FILE.exists():
+        return FileResponse(INDEX_FILE)
+    raise HTTPException(status_code=404, detail="index.html not found")
+
+

@@ -58,3 +58,4 @@ docker compose up --build
 ## 预览 Not Found 排查
 
 如果你在平台预览里看到 `Not Found`，通常是因为只启动了 API 服务但没有返回前端页面。当前版本已在 FastAPI 中提供 `/`、`/app.js`、`/styles.css` 路由，直接访问后端地址即可打开页面。
+- 如果平台预览使用的是子路径（例如 `/preview/...`），后端已增加 SPA fallback，会自动回退到 `index.html`，不再出现空白页。

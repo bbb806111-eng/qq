@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  shortdrama:
+    build: .
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    volumes:
+      - ./backend:/app/backend
